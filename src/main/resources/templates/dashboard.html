@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Dashboard')}"></head>
+<body><div class="app-shell">
+<aside th:replace="~{fragments/layout :: sidebar}"></aside>
+<main class="main-area"><header th:replace="~{fragments/layout :: topbar}"></header>
+<div class="content">
+    <div th:replace="~{fragments/layout :: flash}"></div>
+    <div class="page-heading"><div><p class="eyebrow">SATURDAY, 21 NOVEMBER 2026</p><h1>Good morning, Amina <span>✦</span></h1><p class="subheading">Here’s what’s happening with your people today.</p></div><a class="btn btn-primary" th:href="@{/employees/new}">＋ Add employee</a></div>
+    <section class="stats-grid">
+        <article class="stat-card"><div class="stat-top"><span>Total employees</span><span class="stat-icon lavender">♙</span></div><strong th:text="${employeeCount}">7</strong><small><b class="positive">↑ 2</b> from last month</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Active employees</span><span class="stat-icon mint">✓</span></div><strong th:text="${activeCount}">6</strong><small><b class="positive">85.7%</b> of workforce</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Departments</span><span class="stat-icon peach">▦</span></div><strong th:text="${departmentCount}">5</strong><small>Across the organisation</small></article>
+        <article class="stat-card"><div class="stat-top"><span>Pending leave</span><span class="stat-icon yellow">◷</span></div><strong th:text="${pendingLeaves}">2</strong><small><a th:href="@{/leave}">Review requests →</a></small></article>
+    </section>
+    <section class="dashboard-grid">
+        <article class="panel"><div class="panel-heading"><div><h2>Recent employees</h2><p>Your latest team members</p></div><a th:href="@{/employees}">View all →</a></div>
+            <div class="table-wrap"><table><thead><tr><th>EMPLOYEE</th><th>DEPARTMENT</th><th>POSITION</th><th>STATUS</th></tr></thead><tbody>
+            <tr th:each="employee : ${recentEmployees}"><td><div class="person-cell"><div class="avatar" th:text="${#strings.substring(employee.firstName,0,1) + #strings.substring(employee.lastName,0,1)}">AW</div><div><strong th:text="${employee.fullName}">Name</strong><small th:text="${employee.email}">email</small></div></div></td><td th:text="${employee.department}">HR</td><td th:text="${employee.position}">Manager</td><td><span class="status" th:classappend="${employee.status == 'Active'} ? ' status-active' : ' status-away'" th:text="${employee.status}">Active</span></td></tr>
+            </tbody></table></div>
+        </article>
+        <article class="panel"><div class="panel-heading"><div><h2>Leave requests</h2><p>Requests that need your attention</p></div><a th:href="@{/leave}">View all →</a></div>
+            <div class="request-list"><div class="request-item" th:each="leave : ${leaveRequests}"><div class="avatar avatar-soft" th:text="${#strings.substring(leave.employeeName,0,1)}">K</div><div class="request-info"><strong th:text="${leave.employeeName}">Employee</strong><small th:text="${leave.leaveType + ' · ' + leave.startDate}">Annual · Date</small></div><span class="status" th:classappend="${leave.status == 'Pending'} ? ' status-pending' : (leave.status == 'Approved' ? ' status-active' : ' status-rejected')" th:text="${leave.status}">Pending</span></div></div>
+        </article>
+    </section>
+    <section class="panel attendance-panel"><div class="panel-heading"><div><h2>Today’s attendance</h2><p>Team check-in overview · 21 Nov 2026</p></div><a th:href="@{/attendance}">Full attendance →</a></div>
+        <div class="table-wrap"><table><thead><tr><th>EMPLOYEE</th><th>DEPARTMENT</th><th>CHECK IN</th><th>CHECK OUT</th><th>STATUS</th></tr></thead><tbody><tr th:each="record : ${attendance}"><td><strong th:text="${record.employeeName}">Name</strong></td><td th:text="${record.department}">Department</td><td th:text="${record.clockIn}">08:00</td><td th:text="${record.clockOut}">17:00</td><td><span class="status" th:classappend="${record.status == 'Present' ? ' status-active' : (record.status == 'Working' ? ' status-working' : ' status-rejected')}" th:text="${record.status}">Present</span></td></tr></tbody></table></div>
+    </section>
+    <p class="footer-note">Northstar HR Management · Sample workspace · Data resets when the application restarts.</p>
+</div></main></div></body></html>

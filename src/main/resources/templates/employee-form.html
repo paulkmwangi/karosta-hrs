@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/head :: head('Employee details')}"></head><body><div class="app-shell">
+<aside th:replace="~{fragments/layout :: sidebar}"></aside><main class="main-area"><header th:replace="~{fragments/layout :: topbar}"></header><div class="content">
+<div class="page-heading"><div><p class="eyebrow">PEOPLE DIRECTORY</p><h1 th:text="${formTitle}">Add employee</h1><p class="subheading">Enter the employee’s information below.</p></div><a class="btn btn-outline" th:href="@{/employees}">← Back to employees</a></div>
+<form class="panel form-panel" th:action="@{/employees/save}" th:object="${employee}" method="post">
+<input type="hidden" th:field="*{id}">
+<div class="form-section-title">Personal information</div><div class="form-grid">
+<label>First name<input required th:field="*{firstName}" placeholder="e.g. Jane"></label>
+<label>Last name<input required th:field="*{lastName}" placeholder="e.g. Doe"></label>
+<label>Email address<input required type="email" th:field="*{email}" placeholder="jane@example.com"></label>
+<label>Phone number<input th:field="*{phone}" placeholder="+254 700 000 000"></label>
+</div><div class="form-section-title">Employment information</div><div class="form-grid">
+<label>Department<select required th:field="*{department}"><option value="">Select department</option><option>Human Resources</option><option>Finance</option><option>Technology</option><option>Operations</option><option>Marketing</option><option>Sales</option></select></label>
+<label>Job title<input required th:field="*{position}" placeholder="e.g. HR Officer"></label>
+<label>Employment type<select th:field="*{employmentType}"><option>Full-time</option><option>Part-time</option><option>Contract</option><option>Internship</option></select></label>
+<label>Status<select th:field="*{status}"><option>Active</option><option>On Leave</option><option>Inactive</option></select></label>
+<label>Hire date<input type="date" th:field="*{hireDate}"></label>
+<label>Monthly salary (KES)<input type="number" min="0" step="0.01" th:field="*{salary}" placeholder="75000"></label>
+</div><div class="form-actions"><a class="btn btn-outline" th:href="@{/employees}">Cancel</a><button class="btn btn-primary" type="submit">Save employee</button></div>
+</form></div></main></div></body></html>
